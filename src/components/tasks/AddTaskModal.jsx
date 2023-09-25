@@ -1,8 +1,12 @@
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { addTask } from "../../redux/features/tasks/taskSlice";
 import Modal from "../ui/Modal";
 
 const AddTaskModal = ({ isOpen, setIsOpen }) => {
     const { register, handleSubmit, reset } = useForm();
+    const dispatch = useDispatch();
+
 
     const onCancel = () =>{
         reset();
@@ -10,12 +14,12 @@ const AddTaskModal = ({ isOpen, setIsOpen }) => {
     }
 
     const onSubmit = (data) => {
-
-        console.log(data);
+        dispatch(addTask(data));
+        onCancel();
     }
 
     return (
-        <Modal isOpen={isOpen} setIsOpen={setIsOpen} title='modal'>
+        <Modal isOpen={isOpen} setIsOpen={setIsOpen} title='Redux Add Task'>
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col gap-3 mb-2">
@@ -42,12 +46,12 @@ const AddTaskModal = ({ isOpen, setIsOpen }) => {
                         className="w-full rounded-md"
                         type="date"
                         id="Deadline"
-                        {...register("Deadline")} />
+                        {...register("date")} />
                 </div>
 
                 <div className="flex flex-col gap-3  mb-2">
-                    <label htmlFor="AssignTo">Assign to</label>
-                    <select className="w-full rounded-md" id="AssignTo" {...register("AssignTo")}>
+                    <label htmlFor="AssignedTo">Assigned to</label>
+                    <select className="w-full rounded-md" id="AssignTo" {...register("AssignedTo")}>
                         <option value="Arefin">Arefin</option>
                         <option value="Munna">Munna</option>
                         <option value="Asad">Asad</option>
